@@ -6,7 +6,8 @@ import getImageUrl from "../../utils/getImageURL";
 
 const Bookcard = ({ book }) => {
   const dispatch = useDispatch();
-
+  const imageUrl = getImageUrl("book.1");
+  console.log("Image URL: ", imageUrl);
   const handleAddtoCart = (book) => {
     console.log("Add to cart");
     dispatch(addToCart(book));
