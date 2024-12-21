@@ -16,7 +16,10 @@ app.use(
 
 //routes
 const bookRouter = require("./src/books/book.route");
+const orderRouter = require("./src/orders/order.route");
+
 app.use("/api/books", bookRouter);
+app.use("/api/orders", orderRouter);
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });

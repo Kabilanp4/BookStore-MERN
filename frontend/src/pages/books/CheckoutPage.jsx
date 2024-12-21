@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { useAuth } from "../../context/AuthContext";
+import { useCreateOrderMutation } from "../../redux/orders/ordersApi";
 
 const CheckoutPage = () => {
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -12,11 +15,12 @@ const CheckoutPage = () => {
     watch,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
+  const navigate = useNavigate();
+  const onSubmit = async (data) => {
     console.log(data);
     const newOrder = {
       name: data.name,
-      email: currentUser?.email,
+      email: user?.email,
       address: {
         city: data.city,
         country: data.country,
@@ -28,9 +32,30 @@ const CheckoutPage = () => {
       totalPrice: subTotal,
     };
     console.log("newOrder", newOrder);
+    try {
+      const check = await createOrder(newOrder).unwrap();
+      Swal.fire({
+        title: "Confirmed Order",
+        text: "Your order has been placed successfully",
+        icon: "",
+        // showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        // cancelButtonColor: "#d33",
+        confirmButtonText: "Ok!",
+      });
+      console.log("check", check);
+      navigate("/orders");
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const currentUser = true;
+  // const currentUser = true;
+  const { user } = useAuth();
+  console.log("user,", user);
   const [isChecked, setIsChecked] = useState(false);
+  const [createOrder, { isLoading, error }] = useCreateOrderMutation();
+
+  if (isLoading) return <p>Loading...</p>;
   return (
     <section>
       <div className="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
@@ -77,7 +102,7 @@ const CheckoutPage = () => {
                         id="email"
                         className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                         disabled
-                        defaultValue={currentUser?.email}
+                        defaultValue={user?.email}
                         placeholder="email@domain.com"
                       />
                     </div>
@@ -90,6 +115,7 @@ const CheckoutPage = () => {
                         id="phone"
                         className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                         placeholder="+123 456 7890"
+                        defaultValue={user?.phoneNumber}
                       />
                     </div>
 

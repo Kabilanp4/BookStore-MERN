@@ -1,5 +1,5 @@
 // import React from "react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { GiShoppingCart } from "react-icons/gi";
 import { HiOutlineUser } from "react-icons/hi";
@@ -8,6 +8,7 @@ import { SlHeart } from "react-icons/sl";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import avatarImage from "../assets/avatar.png";
+import { useAuth } from "../context/AuthContext";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard" },
@@ -18,7 +19,25 @@ const navigation = [
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const currentUser = false;
+  const { user, Logout } = useAuth();
+
+  const handleLogout = () => {
+    Logout();
+  };
+  const dropdownRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsDropdownOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const cartItems = useSelector((state) => state.cart.cartItems);
   console.log("cartItems", cartItems);
@@ -41,15 +60,15 @@ const Navbar = () => {
           </div>
         </div>
         <div className=" relative flex items-center md:space-x-3">
-          <div>
-            {currentUser ? (
+          <div className="navigation" ref={dropdownRef}>
+            {user ? (
               <>
                 <button onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
                   <img
                     src={avatarImage}
                     alt=""
                     className={`size-7 rounded-full ${
-                      currentUser ? "ring-2 ring-blue-500" : ""
+                      user ? "ring-2 ring-blue-500" : ""
                     }`}
                   />
                 </button>
@@ -69,6 +88,14 @@ const Navbar = () => {
                           </Link>
                         </li>
                       ))}
+                      <li>
+                        <button
+                          className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                          onClick={handleLogout}
+                        >
+                          Logout
+                        </button>
+                      </li>
                     </ul>
                   </div>
                 )}

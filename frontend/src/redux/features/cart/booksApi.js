@@ -57,6 +57,5 @@ export const {
   useAddBookMutation,
   useDeleteBookMutation,
   useFetchBookByIdQuery,
-  use,
 } = booksApi;
 export default booksApi;
