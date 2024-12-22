@@ -5,6 +5,7 @@ import Register from "../components/Register";
 import Home from "../pages/Home/Home";
 import CartPage from "../pages/books/CartPage";
 import CheckoutPage from "../pages/books/CheckoutPage";
+import OrdersPage from "../pages/books/OrdersPage";
 import SingleBook from "../pages/books/SingleBook";
 import PrivateRoute from "./PrivateRoute";
 const router = createBrowserRouter([
@@ -39,6 +40,14 @@ const router = createBrowserRouter([
       {
         path: "/books/:id",
         element: <SingleBook />,
+      },
+      {
+        path: "/orders",
+        element: (
+          <PrivateRoute>
+            <OrdersPage />
+          </PrivateRoute>
+        ),
       },
     ],
   },

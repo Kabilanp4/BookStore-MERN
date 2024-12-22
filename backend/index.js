@@ -17,9 +17,11 @@ app.use(
 //routes
 const bookRouter = require("./src/books/book.route");
 const orderRouter = require("./src/orders/order.route");
+const usersRouter = require("./src/users/user.route");
 
 app.use("/api/books", bookRouter);
 app.use("/api/orders", orderRouter);
+app.use("/api/auth", usersRouter);
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
