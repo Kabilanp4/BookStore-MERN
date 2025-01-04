@@ -8,6 +8,7 @@ router.post("/admin", async (req, res) => {
   const { userName, password } = req.body;
   try {
     const admin = await User.findOne({ userName });
+    console.log("admin", admin, userName, password);
     if (!admin) {
       return res.status(400).send("Admin not found");
     }
