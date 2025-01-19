@@ -7,7 +7,7 @@ const { getSingleBook } = require("./book.controller");
 const { updateBook } = require("./book.controller");
 const { deleteBook } = require("./book.controller");
 const verifyAdminToken = require("../middleware/verifyAdminToken");
-router.post("/create-books", verifyAdminToken, postABook);
+router.post("/create-book", verifyAdminToken, postABook);
 
 router.get("/", getAllBooks);
 

@@ -18,10 +18,12 @@ app.use(
 const bookRouter = require("./src/books/book.route");
 const orderRouter = require("./src/orders/order.route");
 const usersRouter = require("./src/users/user.route");
+const adminRouter = require("./src/stats/admin.stats");
 
 app.use("/api/books", bookRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/auth", usersRouter);
+app.use("/api/admin", adminRouter);
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });

@@ -8,6 +8,10 @@ import CartPage from "../pages/books/CartPage";
 import CheckoutPage from "../pages/books/CheckoutPage";
 import OrdersPage from "../pages/books/OrdersPage";
 import SingleBook from "../pages/books/SingleBook";
+import Dashboard from "../pages/dashboard/Dashboard";
+import DashboardLayout from "../pages/dashboard/DashboardLayout";
+import ManageBooks from "../pages/dashboard/ManageBooks/ManageBooks";
+import AddBook from "../pages/dashboard/addBooks/AddBook";
 import AdminRoute from "./AdminRoute";
 import PrivateRoute from "./PrivateRoute";
 const router = createBrowserRouter([
@@ -61,7 +65,7 @@ const router = createBrowserRouter([
     path: "/dashboard",
     element: (
       <AdminRoute>
-        <h1>Dashboard</h1>
+        <DashboardLayout />
       </AdminRoute>
     ),
     children: [
@@ -69,7 +73,7 @@ const router = createBrowserRouter([
         path: "",
         element: (
           <AdminRoute>
-            <h2>Dashboard Home</h2>
+            <Dashboard />
           </AdminRoute>
         ),
       },
@@ -77,7 +81,7 @@ const router = createBrowserRouter([
         path: "add-new-book",
         element: (
           <AdminRoute>
-            <h2>Add New Book</h2>
+            <AddBook />
           </AdminRoute>
         ),
       },
@@ -93,7 +97,7 @@ const router = createBrowserRouter([
         path: "manage-books",
         element: (
           <AdminRoute>
-            <h2>Manage Books</h2>
+            <ManageBooks />
           </AdminRoute>
         ),
       },
